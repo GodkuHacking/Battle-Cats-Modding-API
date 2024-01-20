@@ -5,6 +5,28 @@ import shutil
 import csv
 import hashlib
 
+def make_mod_apk(original_apk, mod_files_dir, pack_patch, output_apk):
+
+  # Extract original APK
+  temp_dir = 'temp_modding'  
+  os.makedirs(temp_dir, exist_ok=True)
+  shutil.unpack_archive(original_apk, temp_dir)
+
+  # Apply pack patch
+  assets_dir = os.path.join(temp_dir, 'assets')
+  original_pack = os.path.join(assets_dir, 'files.pack')
+  patched_pack = os.path.join(assets_dir, 'files_modded.pack')
+  patch_pack(original_pack, pack_patch, patched_pack)
+
+  # Copy over other mod files
+  shutil.copytree(mod_files_dir, assets_dir)
+
+  # Rebuild patched APK
+  shutil.make_archive(output_apk, 'zip', temp_dir)  
+
+  # Clean up
+  shutil.rmtree(temp_dir)
+    
 def decrypt_files(pack_files, output_dir):
     """Decrypts Battle Cats pack files and extracts contents."""
     
