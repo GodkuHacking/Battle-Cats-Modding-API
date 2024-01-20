@@ -2,7 +2,7 @@ import os
 import modder
 
 # Original APK and assets
-original_apk = 'original.apk'
+original_apk = 'battle.apk'
 assets_dir = 'assets'
 os.makedirs(assets_dir, exist_ok=True)
 
